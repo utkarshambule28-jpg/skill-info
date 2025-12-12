@@ -1,7 +1,14 @@
+
+
+
+
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import dotenv from "dotenv";
+
 import connectDB from "./config/database.js";
 import { logger } from "./utils/logger.js";
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -17,7 +24,8 @@ import analyticsRoutes from "./routes/analytics.routes.js";
 import chatbotRoutes from "./routes/chatbot.routes.js";
 
 // Load environment variables
-dotenv.config();
+
+
 
 // Read required values
 const PORT = process.env.PORT || 5000;
