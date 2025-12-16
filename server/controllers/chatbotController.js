@@ -62,14 +62,7 @@
 // };
 
 import OpenAI from "openai";
-import dotenv from "dotenv";
 import { logger } from "../utils/logger.js";
-
-dotenv.config();
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export const sendMessage = async (req, res) => {
   try {
@@ -82,9 +75,19 @@ export const sendMessage = async (req, res) => {
       });
     }
 
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({
+        success: false,
+        error: "OpenAI API key not configured",
+      });
+    }
+
     logger.info("Chatbot message received", { userId, message });
 
-    // 🔥 Call OpenAI GPT Model
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     const completion = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
